@@ -29,7 +29,6 @@ const weatherTypes = {
   isSnowing: [23, 37, 42],
 }
 
-
 const weatherIcons = {
   day: {
     isThunderstorm: <DayThunderstorm />,
@@ -72,7 +71,6 @@ const WeatherIcon = ({ currentWeatherCode, moment}) => {
   const theWeatherIcon = useMemo(() => weatherCode2Type(currentWeatherCode), [currentWeatherCode])
 
   useEffect(() => {setCurrentWeatherIcon(theWeatherIcon)}, [theWeatherIcon])
-
   return (
     <IconContainer>{weatherIcons[moment][currentWeatherIcon]}</IconContainer>
   )
