@@ -1,8 +1,8 @@
 import {React, useState , useEffect, useMemo} from 'react'
 import styled, {ThemeProvider} from 'styled-components'
 import WeatherCard from '@/components/Weather/WeatherCard'
-import useWeatherApi from '@/composable/useWeatherApi';
-import useMoment from '@/composable/useMoment';
+import useWeatherApi from '@/composable/useWeatherApi'
+import useMoment from '@/composable/useMoment'
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.backgroundColor};

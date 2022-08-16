@@ -40,7 +40,7 @@ const fetchWeatherForecast = () => {
             return neededElements;
         },
         {}
-        );
+        )
 
         return  {
         description: weatherElements.Wx.parameterName,
@@ -48,7 +48,7 @@ const fetchWeatherForecast = () => {
         rainPossibility: weatherElements.PoP.parameterName,
         comfortability: weatherElements.CI.parameterName,
         }
-    });
+    })
 }
 
 const useWeatherApi = () => {

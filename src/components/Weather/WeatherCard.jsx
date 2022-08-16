@@ -120,26 +120,16 @@ const WeatherCard = (props) => {
     return (
     <WeatherCardWrapper>
     <Location>{locationName}</Location>
-    <Description>
-        {description} /  {comfortability} 
-    </Description>
+    <Description> {description} /  {comfortability} </Description>
     <CurrentWeather>
-        <Temperature>
-          {Math.round(temperature)}<Celsius>°C</Celsius>
-        </Temperature>
+        <Temperature> {Math.round(temperature)}<Celsius>°C</Celsius></Temperature>
         <WeatherIcon 
           currentWeatherCode={weatherCode}
           moment={moment || 'day'}
         />
     </CurrentWeather>
-    <AirFlow>
-            <AirFlowIcon />
-            {windSpeed} m/h 
-        </AirFlow>
-    <Rain>
-            <RainIcon />
-            {rainPossibility * 100 >= 0 ? rainPossibility :  'N/A' } %
-    </Rain>
+    <AirFlow><AirFlowIcon /> {windSpeed} m/h </AirFlow>
+    <Rain><RainIcon />{rainPossibility * 100 >= 0 ? rainPossibility :  'N/A' } %</Rain>
     <Refresh onClick={fetchData} isLoading={isLoading}>
         最後觀測時間：
         {new Intl.DateTimeFormat('zh-TW', {
