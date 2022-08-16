@@ -58,17 +58,12 @@ const IconContainer = styled.div`
   }
 `
 
-const weatherCode2Type = (weatherCode) => {
-  const [weatherType] =
-    Object.entries(weatherTypes).find(([weatherType, weatherCodes]) =>
-      weatherCodes.includes(Number(weatherCode))
-    ) || []
-  return weatherType
-}
+const weatherCode2Type = weatherCode => Object.entries(weatherTypes).reduce(
+  (currentWeatherType, [weatherType, weatherCodes]) =>weatherCodes.includes(Number(weatherCode)) ? weatherType : currentWeatherType,'',)
 
 const WeatherIcon = ({ currentWeatherCode, moment}) => {
   const [currentWeatherIcon, setCurrentWeatherIcon] = useState('isClear')
-  const theWeatherIcon = useMemo(() => weatherCode2Type(currentWeatherCode), [currentWeatherCode])
+  const theWeatherIcon = useMemo(() => weatherCode2Type(currentWeatherCode), [currentWeatherCode,])
 
   useEffect(() => {setCurrentWeatherIcon(theWeatherIcon)}, [theWeatherIcon])
   return (

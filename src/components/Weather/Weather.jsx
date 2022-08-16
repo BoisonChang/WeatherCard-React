@@ -41,7 +41,7 @@ const WeatherApp = () => {
   const [currentPage, setCurrentPage] = useState('WeatherCard')
   const [weatherElement, fetchData] = useWeatherApi(currentLocation)
   const moment = useMemo(() => getMoment(currentLocation.sunriseCityName), [currentLocation.sunriseCityName, getMoment])
-  useEffect(() => { setCurrentTheme(moment === 'day' ? 'light' : 'dark')}, [moment])
+  useEffect(() => { setCurrentTheme(moment === 'dark' ? 'dark' : 'light')}, [moment])
   useEffect(() => { localStorage.setItem('cityName', currentCity)}, [currentCity])
   
   return (
