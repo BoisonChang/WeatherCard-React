@@ -18,7 +18,6 @@ const WeatherCardWrapper = styled.div`
 const Location = styled.div`
   color: ${({ theme }) => theme.titleColor};
   font-size: 28px;
-  color: #212121;
   margin-bottom: 20px;
 `
 
@@ -119,23 +118,24 @@ const WeatherCard = (props) => {
 
     return (
     <WeatherCardWrapper>
-    <Location>{locationName}</Location>
-    <Description> {description} /  {comfortability} </Description>
+    <Location>{locationName ? locationName : '臺北市'}</Location>
+    <Description> {description ? description : '目前無資料'} /  {comfortability ? comfortability : '目前無資料'} </Description>
     <CurrentWeather>
-        <Temperature> {Math.round(temperature)}<Celsius>°C</Celsius></Temperature>
+        <Temperature> {temperature ? Math.round(temperature) : 'N/A'}<Celsius>°C</Celsius></Temperature>
         <WeatherIcon 
           currentWeatherCode={weatherCode}
           moment={moment || 'day'}
         />
     </CurrentWeather>
-    <AirFlow><AirFlowIcon /> {windSpeed} m/h </AirFlow>
+    <AirFlow><AirFlowIcon /> {windSpeed ? windSpeed :  'N/A' } m/h </AirFlow>
     <Rain><RainIcon />{rainPossibility * 100 >= 0 ? rainPossibility :  'N/A' } %</Rain>
     <Refresh onClick={fetchData} isLoading={isLoading}>
         最後觀測時間：
-        {new Intl.DateTimeFormat('zh-TW', {
-        hour: 'numeric',
-        minute: 'numeric',
-        }).format(new Date(observationTime))}{' '}
+        {observationTime ? new Intl.DateTimeFormat('zh-TW', {
+          hour: 'numeric',
+          minute: 'numeric',
+        }).format(new Date(observationTime)) : '00:00' }
+        {' '}
         {isLoading ? <LoadingIcon /> : <RefreshIcon />}
     </Refresh>
     </WeatherCardWrapper>

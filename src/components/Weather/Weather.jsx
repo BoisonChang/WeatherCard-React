@@ -23,8 +23,7 @@ const theme = {
   dark: {
     backgroundColor: '#1F2022',
     foregroundColor: '#121416',
-    boxShadow:
-      '0 1px 4px 0 rgba(12, 12, 13, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.15)',
+    boxShadow: '0 1px 4px 0 rgba(12, 12, 13, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.15)',
     titleColor: '#f9f9fa',
     temperatureColor: '#dddddd',
     textColor: '#cccccc',
@@ -32,7 +31,7 @@ const theme = {
 }
 
 const WeatherApp = () => {
-  const [getMoment] = useMoment()
+  const {getMoment} = useMoment()
   const [weatherElement, fetchData] = useWeatherApi()
   const [currentTheme, setCurrentTheme] = useState('light')
   const moment = useMemo(() => getMoment(weatherElement.locationName), [weatherElement.locationName, getMoment])

@@ -18,7 +18,7 @@ const useMoment = () => {
         const nowTimeStamp = now.getTime()
         return sunriseTimestamp <= nowTimeStamp && nowTimeStamp <= sunsetTimestamp ? 'day' : 'night'
     }   
-  return getMoment
+  return {getMoment}
 }
 
 export default useMoment
