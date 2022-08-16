@@ -1,9 +1,10 @@
-import React from 'react';
+import React from 'react'
 import styled from 'styled-components'
 import { ReactComponent as AirFlowIcon } from '@/images/airFlow.svg'
 import { ReactComponent as RainIcon } from '@/images/rain.svg'
 import { ReactComponent as RefreshIcon } from '@/images/refresh.svg'
-import { ReactComponent as LoadingIcon } from '@/images/loading.svg';   
+import { ReactComponent as LoadingIcon } from '@/images/loading.svg'
+import { ReactComponent as CogIcon } from '@/images/cog.svg'
 import WeatherIcon from '@/components/Weather/WeatherIcon'
 
 const WeatherCardWrapper = styled.div`
@@ -102,11 +103,19 @@ const Refresh = styled.div`
   }
 `
 
+const Cog = styled(CogIcon)`
+  position: absolute;
+  top: 30px;
+  right: 15px;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+`
+
 const WeatherCard = (props) => {
-    const { weatherElement, moment, fetchData } = props
+    const { weatherElement, moment, fetchData, setCurrentPage, cityName } = props
     const {
       observationTime,
-      locationName,
       temperature,
       windSpeed,
       description,
@@ -118,7 +127,8 @@ const WeatherCard = (props) => {
 
     return (
     <WeatherCardWrapper>
-    <Location>{locationName ? locationName : '臺北市'}</Location>
+      <Cog onClick={() => setCurrentPage('WeatherSetting')} />
+    <Location>{cityName ? cityName : '臺北市'}</Location>
     <Description> {description ? description : '目前無資料'} /  {comfortability ? comfortability : '目前無資料'} </Description>
     <CurrentWeather>
         <Temperature> {temperature ? Math.round(temperature) : 'N/A'}<Celsius>°C</Celsius></Temperature>

@@ -1,8 +1,10 @@
 import {React, useState , useEffect, useMemo} from 'react'
 import styled, {ThemeProvider} from 'styled-components'
 import WeatherCard from '@/components/Weather/WeatherCard'
+import WeatherSetting from '@/components/Weather/WeatherSetting'
 import useWeatherApi from '@/composable/useWeatherApi'
 import useMoment from '@/composable/useMoment'
+import { findLocation } from '@/utils/utils.js'
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.backgroundColor};
@@ -31,20 +33,35 @@ const theme = {
 }
 
 const WeatherApp = () => {
+  const storageCity = localStorage.getItem('cityName')
   const {getMoment} = useMoment()
-  const [weatherElement, fetchData] = useWeatherApi()
+  const [currentCity, setCurrentCity] = useState(storageCity || '臺北市')
+  const currentLocation = findLocation(currentCity) || {}
   const [currentTheme, setCurrentTheme] = useState('light')
-  const moment = useMemo(() => getMoment(weatherElement.locationName), [weatherElement.locationName, getMoment])
+  const [currentPage, setCurrentPage] = useState('WeatherCard')
+  const [weatherElement, fetchData] = useWeatherApi(currentLocation)
+  const moment = useMemo(() => getMoment(currentLocation.sunriseCityName), [currentLocation.sunriseCityName, getMoment])
   useEffect(() => { setCurrentTheme(moment === 'day' ? 'light' : 'dark')}, [moment])
-
+  useEffect(() => { localStorage.setItem('cityName', currentCity)}, [currentCity])
+  
   return (
     <ThemeProvider theme={theme[currentTheme]}>
       <Container>
-        <WeatherCard 
-            weatherElement={weatherElement}
-            moment={moment}
-            fetchData={fetchData}
-        />
+        {currentPage === 'WeatherCard' && (
+          <WeatherCard 
+              cityName={currentLocation.cityName}
+              weatherElement={weatherElement}
+              moment={moment}
+              fetchData={fetchData}
+              setCurrentPage={setCurrentPage}
+          />
+        )}
+        {currentPage === 'WeatherSetting' && (
+          <WeatherSetting 
+            cityName={currentLocation.cityName} 
+            setCurrentCity={setCurrentCity}
+            setCurrentPage={setCurrentPage} 
+          />)}
       </Container>
     </ ThemeProvider>
   )
