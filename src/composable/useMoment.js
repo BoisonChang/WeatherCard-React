@@ -1,4 +1,4 @@
-import sunriseAndSunsetData from '@/sunrise-sunset-tapei.json'
+import sunriseAndSunsetData from '@/sunrise-sunset.json'
 
 const useMoment = () => {
     const getMoment = (locationName) => {

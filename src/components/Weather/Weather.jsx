@@ -45,10 +45,11 @@ const WeatherApp = () => {
   const [weatherElement, fetchData] = useWeatherApi(currentLocation)
   const moment = useMemo(() => getMoment(currentLocation.sunriseCityName), [currentLocation.sunriseCityName, getMoment])
   // 輸入白天黑夜決定現在的主題
-  useEffect(() => { setCurrentTheme(moment === 'dark' ? 'dark' : 'light')}, [moment])
+  useEffect(() => {  setCurrentTheme(moment === 'dark' ? 'dark' : 'light')}, [])
   // 儲存選擇的現在所在的城市
   useEffect(() => { localStorage.setItem('cityName', currentCity)}, [currentCity])
   
+
   return (
     <ThemeProvider theme={theme[currentTheme]}>
       <Container>
@@ -58,6 +59,7 @@ const WeatherApp = () => {
               weatherElement={weatherElement}
               moment={moment}
               fetchData={fetchData}
+              setCurrentTheme={setCurrentTheme}
               setCurrentPage={setCurrentPage}
           />
         )}

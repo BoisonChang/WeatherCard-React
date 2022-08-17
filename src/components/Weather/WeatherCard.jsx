@@ -6,6 +6,7 @@ import { ReactComponent as RefreshIcon } from '@/images/refresh.svg'
 import { ReactComponent as LoadingIcon } from '@/images/loading.svg'
 import { ReactComponent as CogIcon } from '@/images/cog.svg'
 import WeatherIcon from '@/components/Weather/WeatherIcon'
+import WeatherThemeSwitch from '@/components/Weather/WeatherThemeSwitch'
 
 const WeatherCardWrapper = styled.div`
   position: relative;
@@ -113,7 +114,7 @@ const Cog = styled(CogIcon)`
 `
 
 const WeatherCard = props => {
-    const { weatherElement, moment, fetchData, setCurrentPage, cityName } = props
+    const { weatherElement, moment, fetchData, setCurrentPage, cityName, setCurrentTheme} = props
     // 從 weatherElement 解構賦值方式取出以下變數，簡化後續程式碼
     const {
       observationTime,
@@ -128,6 +129,7 @@ const WeatherCard = props => {
 
     return (
     <WeatherCardWrapper>
+      <WeatherThemeSwitch setCurrentTheme={setCurrentTheme} moment={moment}/>
       <Cog onClick={() => setCurrentPage('WeatherSetting')} />
     <Location>{cityName ? cityName : '臺北市'}</Location>
     <Description> {description ? description : '目前無資料'} /  {comfortability ? comfortability : '目前無資料'} </Description>
