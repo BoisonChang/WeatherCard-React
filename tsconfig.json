@@ -6,8 +6,10 @@
     "paths": {
       "@": ["./src"],
       "@/*": ["./src/*"],
-      "@components": ["./src/components"]
-    }
+      "@components": ["./src/components"],
+      "@utils": ["./src/utils"],
+      "@images": ["./src/images"]      
+    },   
     // "baseUrl": ".",
     // "paths": {
     //   "@apis/*": ["src/apis/*"],
@@ -110,6 +112,6 @@
 
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
-    "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
+    "skipLibCheck": true,                              /* Skip type checking all .d.ts files. */
   }
 }

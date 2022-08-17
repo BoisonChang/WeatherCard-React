@@ -58,12 +58,8 @@ const CardFooter = ({inputValue}:  Props) => {
 
 export default function SpeedConverter() {
   const [inputValue, setInputValue] = useState<any>(0)
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-    setInputValue(e.target.value)
-  }
-
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)
+  
   return (
     <>
       <div className="container">

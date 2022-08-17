@@ -58,7 +58,6 @@ const useWeatherApi = (currentLocation) => {
   const [weatherElement, setWeatherElement] = useState({
     observationTime: new Date(),
     locationName: '',
-    humid: 0,
     temperature: 0,
     windSpeed: 0,
     description: '',
