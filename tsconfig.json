@@ -2,6 +2,17 @@
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
     "jsx": "react",
+    "baseUrl": ".",
+    "paths": {
+      "@": ["./src"],
+      "@/*": ["./src/*"],
+      "@components": ["./src/components"]
+    }
+    // "baseUrl": ".",
+    // "paths": {
+    //   "@apis/*": ["src/apis/*"],
+    //   "@common/*": ["src/common/*"],
+    // },
 
     /* Projects */
     // "incremental": true,                              /* Save .tsbuildinfo files to allow for incremental compilation of projects. */
