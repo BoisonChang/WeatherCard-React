@@ -89,14 +89,14 @@ const Save = styled.button`
 `
 
 const locations = availableLocations.map((location) => location.cityName)
-
 const WeatherSetting = ({ setCurrentPage, cityName, setCurrentCity }) => {
     const [locationName, setLocationName] = useState(cityName)
 
-    const handleChange = (e) => {
+    const handleChange = e => {
         console.log(e.target.value)
         setLocationName(e.target.value)
     }
+
     const handleSave = () => {
         if (locations.includes(locationName)) {
           console.log(`儲存的地區資訊為：${locationName}`)
@@ -113,16 +113,15 @@ const WeatherSetting = ({ setCurrentPage, cityName, setCurrentCity }) => {
           <Title>設定</Title>
           <StyledLabel htmlFor="location">地區</StyledLabel>
           <StyledInputList list="location-list" id="location" name="location" onChange={handleChange} />
-          <datalist id="location-list">
+            <datalist id="location-list">
                 { locations.map(location => (<option value={location} key={location} />)) }
             </datalist>
-    
           <ButtonGroup>
             <Back onClick={() => setCurrentPage('WeatherCard')}>返回</Back>
             <Save onClick={handleSave}>儲存</Save>
           </ButtonGroup>
         </WeatherSettingWrapper>
-      )    
+      )
 }
 
 export default WeatherSetting

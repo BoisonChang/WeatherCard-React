@@ -52,7 +52,6 @@ const weatherIcons = {
 
 const IconContainer = styled.div`
   flex-basis: 30%;
-
   svg {
     max-height: 110px;
   }
@@ -64,11 +63,9 @@ const weatherCode2Type = weatherCode => Object.entries(weatherTypes).reduce(
 const WeatherIcon = ({ currentWeatherCode, moment}) => {
   const [currentWeatherIcon, setCurrentWeatherIcon] = useState('isClear')
   const theWeatherIcon = useMemo(() => weatherCode2Type(currentWeatherCode), [currentWeatherCode,])
-
   useEffect(() => {setCurrentWeatherIcon(theWeatherIcon)}, [theWeatherIcon])
-  return (
-    <IconContainer>{weatherIcons[moment][currentWeatherIcon]}</IconContainer>
-  )
+  
+  return (<IconContainer>{weatherIcons[moment][currentWeatherIcon]}</IconContainer>)
 }
 
 export default WeatherIcon

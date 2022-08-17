@@ -2,12 +2,11 @@ import { useState, useEffect, useCallback } from 'react'
 
 const fetchCurrentWeather = (locationName) => {
   return fetch(
-    `https://opendata.api.gov.tw/api/v1/rest/datastore/O-A0003-001?Authorization=CWB-507B37E0-0383-4D8C-878D-628B54EC3536&locationName=${locationName}`,
+    `https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0001-001?Authorization=CWB-FA90FD61-C9A1-4C1D-AF00-F2E16E4EBB75&locationName=${locationName}`,
   )
     .then(response => response.json())
     .then(data => {
       const locationData = data.records.location[0]
-
       const weatherElements = locationData.weatherElement.reduce(
         (neededElements, item) => {
           if (['WDSD', 'TEMP', 'HUMD'].includes(item.elementName)) {
@@ -17,7 +16,6 @@ const fetchCurrentWeather = (locationName) => {
         },
         {},
       )
-
       return {
         observationTime: locationData.time.obsTime,
         locationName: locationData.locationName,
@@ -29,10 +27,9 @@ const fetchCurrentWeather = (locationName) => {
         console.log('error : ', error);
     })
 }
-
 const fetchWeatherForecast = (cityName) => {
   return fetch(
-    `https://opendata.cwb.gov.tw/api/v1/Authorization/datastore/F-C0032-001?datastore=CWB-507B37E0-0383-4D8C-878D-628B54EC3536&locationName=${cityName}`,
+    `https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-FA90FD61-C9A1-4C1D-AF00-F2E16E4EBB75&locationName=${cityName}`,
   )
     .then(response => response.json())
     .then(data => {
@@ -42,11 +39,9 @@ const fetchWeatherForecast = (cityName) => {
           if (['Wx', 'PoP', 'CI'].includes(item.elementName)) {
             neededElements[item.elementName] = item.time[0].parameter
           }
-          return neededElements;
-        },
-        {},
+          return neededElements
+        }, {},
       )
-
       return {
         description: weatherElements.Wx.parameterName,
         weatherCode: weatherElements.Wx.parameterValue,
@@ -54,7 +49,7 @@ const fetchWeatherForecast = (cityName) => {
         comfortability: weatherElements.CI.parameterName,
       }
     }).catch(function(error) {
-        console.log('error : ', error);
+        console.log('error : ', error)
     })
 }
 
@@ -79,20 +74,17 @@ const useWeatherApi = (currentLocation) => {
         fetchCurrentWeather(locationName),
         fetchWeatherForecast(cityName),
       ])
-
       setWeatherElement({
         ...currentWeather,
         ...weatherForecast,
         isLoading: false,
       })
     }
-
     setWeatherElement(prevState => ({
       ...prevState,
       isLoading: true,
-    }));
-
-    fetchingData();
+    }))
+    fetchingData()
   }, [locationName, cityName])
 
   useEffect(() => {
@@ -100,6 +92,6 @@ const useWeatherApi = (currentLocation) => {
   }, [fetchData])
 
   return [weatherElement, fetchData]
-};
+}
 
 export default useWeatherApi

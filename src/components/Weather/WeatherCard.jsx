@@ -112,8 +112,9 @@ const Cog = styled(CogIcon)`
   cursor: pointer;
 `
 
-const WeatherCard = (props) => {
+const WeatherCard = props => {
     const { weatherElement, moment, fetchData, setCurrentPage, cityName } = props
+    // 從 weatherElement 解構賦值方式取出以下變數，簡化後續程式碼
     const {
       observationTime,
       temperature,

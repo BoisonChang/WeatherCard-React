@@ -34,14 +34,19 @@ const theme = {
 
 const WeatherApp = () => {
   const storageCity = localStorage.getItem('cityName')
+  // 從 useMoment 取得輸入所在城市，即可判斷現在時間白天還是黑夜的函式 
   const {getMoment} = useMoment()
+  // 若是 storageCity 沒儲存東西就預設臺北市
   const [currentCity, setCurrentCity] = useState(storageCity || '臺北市')
+  // 從 currentCity 去找出對應的其他名稱
   const currentLocation = findLocation(currentCity) || {}
   const [currentTheme, setCurrentTheme] = useState('light')
   const [currentPage, setCurrentPage] = useState('WeatherCard')
   const [weatherElement, fetchData] = useWeatherApi(currentLocation)
   const moment = useMemo(() => getMoment(currentLocation.sunriseCityName), [currentLocation.sunriseCityName, getMoment])
+  // 輸入白天黑夜決定現在的主題
   useEffect(() => { setCurrentTheme(moment === 'dark' ? 'dark' : 'light')}, [moment])
+  // 儲存選擇的現在所在的城市
   useEffect(() => { localStorage.setItem('cityName', currentCity)}, [currentCity])
   
   return (
