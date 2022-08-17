@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/WeatherCard-React/static/css/main.31d6cfe0.css",
-    "main.js": "/WeatherCard-React/static/js/main.8c299daa.js",
+    "main.css": "/WeatherCard-React/static/css/main.f9c8ead5.css",
+    "main.js": "/WeatherCard-React/static/js/main.dc08330d.js",
     "static/js/787.c56f1b6e.chunk.js": "/WeatherCard-React/static/js/787.c56f1b6e.chunk.js",
     "static/media/day-snowing.svg": "/WeatherCard-React/static/media/day-snowing.ba1cbc7669611ee425e874e171d02e70.svg",
     "static/media/night-snowing.svg": "/WeatherCard-React/static/media/night-snowing.f00de84c0d9bed3a871ecc6fdd79f1ca.svg",
@@ -23,11 +23,12 @@
     "static/media/loading.svg": "/WeatherCard-React/static/media/loading.f8d56fd58925a1aaab4f80f1d8865c03.svg",
     "static/media/night-clear.svg": "/WeatherCard-React/static/media/night-clear.94eb7d671bc6d4dec6aa0b47038954df.svg",
     "index.html": "/WeatherCard-React/index.html",
-    "main.8c299daa.js.map": "/WeatherCard-React/static/js/main.8c299daa.js.map",
+    "main.f9c8ead5.css.map": "/WeatherCard-React/static/css/main.f9c8ead5.css.map",
+    "main.dc08330d.js.map": "/WeatherCard-React/static/js/main.dc08330d.js.map",
     "787.c56f1b6e.chunk.js.map": "/WeatherCard-React/static/js/787.c56f1b6e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.31d6cfe0.css",
-    "static/js/main.8c299daa.js"
+    "static/css/main.f9c8ead5.css",
+    "static/js/main.dc08330d.js"
   ]
 }
