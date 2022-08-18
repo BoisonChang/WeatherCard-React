@@ -8,7 +8,7 @@ type Props = {
 
 const WeatherThemeSwitch = ({setCurrentTheme, moment}: Props) => {
     const storageMode = localStorage.getItem('modeType')
-    const [mode, setMode] = useState(storageMode || moment)  
+    const [mode, setMode] = useState<string>(storageMode || moment)  
     const handleTheme = () => {
         setCurrentTheme(mode === 'day' ? 'dark' : 'light')
         setMode(mode === 'day' ? 'night' : 'day')
