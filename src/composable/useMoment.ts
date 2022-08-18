@@ -13,8 +13,8 @@ const useMoment = () => {
           .format(now)
           .replace(/\//g, '-')
         const locationDate = location.time && location.time.find((time) => time.dataTime === nowDate)
-        const sunriseTimestamp = new Date(`${locationDate.dataTime} ${locationDate.sunrise}`).getTime();
-        const sunsetTimestamp = new Date(`${locationDate.dataTime} ${locationDate.sunset}`).getTime();
+        const sunriseTimestamp = new Date(`${locationDate?.dataTime} ${locationDate?.sunrise}`).getTime();
+        const sunsetTimestamp = new Date(`${locationDate?.dataTime} ${locationDate?.sunset}`).getTime();
         const nowTimeStamp = now.getTime()
         return sunriseTimestamp <= nowTimeStamp && nowTimeStamp <= sunsetTimestamp ? 'day' : 'night'
     }   
