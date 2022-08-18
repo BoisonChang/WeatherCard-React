@@ -2,6 +2,7 @@
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
     "jsx": "react",
+    "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
       "@": ["./src"],
