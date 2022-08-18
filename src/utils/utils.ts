@@ -106,7 +106,11 @@ export const availableLocations = [
       sunriseCityName: '新北市',
     },
 ]
-
-export const findLocation = (cityName:string) => {
-    return availableLocations.find(location => location.cityName === cityName)
+export type LocationType = {
+  cityName: string,
+  locationName: string,
+  sunriseCityName: string
+}
+export const findLocation:(value: string) => LocationType | null = (cityName) => {
+    return availableLocations.find(location => location.cityName === cityName ) || null
 }

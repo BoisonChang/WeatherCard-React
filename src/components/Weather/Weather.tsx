@@ -5,6 +5,7 @@ import WeatherSetting from '@/components/Weather/WeatherSetting'
 import useWeatherApi from '@/composable/useWeatherApi'
 import useMoment from '@/composable/useMoment'
 import { findLocation } from '@/utils/utils.js'
+import {WeatherElementType} from '@/type/type'
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.backgroundColor};
@@ -39,11 +40,11 @@ const WeatherApp = () => {
   // 若是 storageCity 沒儲存東西就預設臺北市
   const [currentCity, setCurrentCity] = useState<string>(storageCity || '臺北市')
   // 從 currentCity 去找出對應的其他名稱
-  const currentLocation= findLocation(currentCity)
+  const currentLocation = findLocation(currentCity) || {cityName: '臺北市',locationName: '天母',sunriseCityName: '臺北市'}
   const [currentTheme, setCurrentTheme] = useState<string>('light')
   const [currentPage, setCurrentPage] = useState<string>('WeatherCard')
   const [weatherElement, fetchData] = useWeatherApi(currentLocation)
-  const moment = useMemo(() => getMoment(currentLocation?.sunriseCityName), [currentLocation?.sunriseCityName, getMoment])
+  const moment = useMemo(() => getMoment(currentLocation.sunriseCityName) || 'day', [currentLocation, getMoment])
   // 輸入白天黑夜決定現在的主題
   useEffect(() => {  setCurrentTheme(moment === 'night' ? 'dark' : 'light')}, [])
   // 儲存選擇的現在所在的城市
@@ -55,10 +56,10 @@ const WeatherApp = () => {
       <Container>
         {currentPage === 'WeatherCard' && (
           <WeatherCard 
-              cityName={currentLocation.cityName}
-              weatherElement:string={weatherElement}
-              moment:string={moment}
-              fetchData={fetchData}
+              cityName={currentLocation?.cityName}
+              weatherElement={weatherElement as WeatherElementType} 
+              moment={moment}
+              fetchData={fetchData as Function}
               setCurrentTheme={setCurrentTheme}
               setCurrentPage={setCurrentPage}
           />

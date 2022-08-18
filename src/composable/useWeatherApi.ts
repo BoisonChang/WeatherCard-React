@@ -1,6 +1,8 @@
-import { useState, useEffect, useCallback } from 'react'
+import {useState, useEffect, useCallback} from 'react'
+import {LocationType} from '@/utils/utils'
+import {WeatherElementType, WeatherType} from '@/type/type'
 
-const fetchCurrentWeather = (locationName) => {
+const fetchCurrentWeather = (locationName:string) => {
   return fetch(
     `https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0001-001?Authorization=CWB-FA90FD61-C9A1-4C1D-AF00-F2E16E4EBB75&locationName=${locationName}`,
   )
@@ -8,7 +10,7 @@ const fetchCurrentWeather = (locationName) => {
     .then(data => {
       const locationData = data.records.location[0]
       const weatherElements = locationData.weatherElement.reduce(
-        (neededElements, item) => {
+        (neededElements:any, item:{elementName:string,elementValue:string}) => {
           if (['WDSD', 'TEMP', 'HUMD'].includes(item.elementName)) {
             neededElements[item.elementName] = item.elementValue;
           }
@@ -27,7 +29,8 @@ const fetchCurrentWeather = (locationName) => {
         console.log('error : ', error);
     })
 }
-const fetchWeatherForecast = (cityName) => {
+
+const fetchWeatherForecast = (cityName:string) => {
   return fetch(
     `https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-FA90FD61-C9A1-4C1D-AF00-F2E16E4EBB75&locationName=${cityName}`,
   )
@@ -35,7 +38,7 @@ const fetchWeatherForecast = (cityName) => {
     .then(data => {
       const locationData = data.records.location[0]
       const weatherElements = locationData.weatherElement.reduce(
-        (neededElements, item) => {
+        (neededElements:any, item:WeatherType) => {
           if (['Wx', 'PoP', 'CI'].includes(item.elementName)) {
             neededElements[item.elementName] = item.time[0].parameter
           }
@@ -53,9 +56,9 @@ const fetchWeatherForecast = (cityName) => {
     })
 }
 
-const useWeatherApi = (currentLocation) => {
+const useWeatherApi = (currentLocation:LocationType) => {
   const { locationName, cityName } = currentLocation
-  const [weatherElement, setWeatherElement] = useState({
+  const [weatherElement, setWeatherElement] = useState<WeatherElementType>({
     observationTime: new Date(),
     locationName: '',
     temperature: 0,
@@ -77,7 +80,7 @@ const useWeatherApi = (currentLocation) => {
         ...currentWeather,
         ...weatherForecast,
         isLoading: false,
-      })
+      } as WeatherElementType)
     }
     setWeatherElement(prevState => ({
       ...prevState,

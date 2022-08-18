@@ -7,6 +7,7 @@ import { ReactComponent as LoadingIcon } from '@/images/loading.svg'
 import { ReactComponent as CogIcon } from '@/images/cog.svg'
 import WeatherIcon from '@/components/Weather/WeatherIcon'
 import WeatherThemeSwitch from '@/components/Weather/WeatherThemeSwitch'
+import {WeatherElementType, WeatherCardElement} from '@/type/type'
 
 const WeatherCardWrapper = styled.div`
   position: relative;
@@ -112,25 +113,8 @@ const Cog = styled(CogIcon)`
   height: 15px;
   cursor: pointer;
 `
-type Props = {
-  moment: string,
-  cityName: string,
-  weatherElement:{
-    observationTime: string,
-    temperature: number,
-    windSpeed: number,
-    description: string,
-    weatherCode: number,
-    rainPossibility: number,
-    comfortability: string,
-    isLoading: boolean
-  },
-  fetchData: Function,
-  setCurrentPage: Function,
-  setCurrentTheme: Function
-}
 
-const WeatherCard = ({weatherElement, moment, fetchData, setCurrentPage, cityName, setCurrentTheme} : Props) => {
+const WeatherCard = ({weatherElement, moment, fetchData, setCurrentPage, cityName, setCurrentTheme} : WeatherCardElement) => {
     // 從 weatherElement 解構賦值方式取出以下變數，簡化後續程式碼
     const {
       observationTime,
