@@ -85,7 +85,8 @@ const Refresh = styled.div<{ isLoading: boolean }>`
   display: inline-flex;
   align-items: flex-end;
   color: ${({ theme }) => theme.textColor};
-  isLoading:string
+  isLoading:string;
+
   svg {
     margin-left: 10px;
     width: 15px;
@@ -146,7 +147,7 @@ const WeatherCard = ({weatherElement, moment, fetchData, setCurrentPage, cityNam
         isLoading={isLoading}
         onClick={(event: any) => fetchData} 
         >
-          最後觀測時間：#
+          最後觀測時間：
           {observationTime ? new Intl.DateTimeFormat('zh-TW', {
             hour: 'numeric',
             minute: 'numeric',

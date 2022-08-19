@@ -4,8 +4,8 @@ import WeatherCard from '@/components/Weather/WeatherCard'
 import WeatherSetting from '@/components/Weather/WeatherSetting'
 import useWeatherApi from '@/composable/useWeatherApi'
 import useMoment from '@/composable/useMoment'
-import { findLocation } from '@/utils/utils.js'
-import {WeatherElementType} from '@/type/type'
+import { findLocation } from '@/utils/utils'
+import {WeatherElementType } from '@/type/type'
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.backgroundColor};

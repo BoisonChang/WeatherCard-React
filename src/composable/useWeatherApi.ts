@@ -10,7 +10,7 @@ const fetchCurrentWeather = (locationName:string) => {
     .then(data => {
       const locationData = data.records.location[0]
       const weatherElements = locationData.weatherElement.reduce(
-        (neededElements:any, item:{elementName:string,elementValue:string}) => {
+        (neededElements:any, item:{elementName:string, elementValue:string}) => {
           if (['WDSD', 'TEMP', 'HUMD'].includes(item.elementName)) {
             neededElements[item.elementName] = item.elementValue;
           }
@@ -76,12 +76,14 @@ const useWeatherApi = (currentLocation:LocationType) => {
         fetchCurrentWeather(locationName),
         fetchWeatherForecast(cityName),
       ])
+
       setWeatherElement({
         ...currentWeather,
         ...weatherForecast,
         isLoading: false,
       } as WeatherElementType)
     }
+
     setWeatherElement(prevState => ({
       ...prevState,
       isLoading: true,
