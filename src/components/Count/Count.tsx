@@ -1,4 +1,5 @@
-import Counter from "./Counter";
+import Counter from "@/components/Count/Counter"
+import * as React from 'react'
 
 const countersLen = Array.from({ length: 6 }, (_, i) => i)
 

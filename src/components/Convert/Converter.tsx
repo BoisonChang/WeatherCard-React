@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import React, {  useState } from "react";
 import "./Converter.css";
 
 const UnitControl = () => (
@@ -12,13 +12,16 @@ const UnitControl = () => (
   </div>
 )
 
-const CardFooter = (props) => {
-  // STEP 1：inputValue 是使用者輸入的數值，暫時先設成 30
-  let {inputValue} = props;
-  // STEP 2：定義 criteria 物件
-  let criteria;
+type Props = {
+  inputValue: number,
+}
 
-  // STEP 3：根據 inputValue 改變要顯示的內容和背景色
+const CardFooter = ({inputValue}:  Props) => {
+  let criteria : {title: string, backgroundColor: string} = {
+    title: '---',
+    backgroundColor: '#d3d8e2',
+  }
+
   if (!inputValue) {
     criteria = {
       title: '---',
@@ -54,13 +57,9 @@ const CardFooter = (props) => {
 };
 
 export default function SpeedConverter() {
-  const [inputValue, setInputValue] = useState(0)
-
-  const handleInputChange = (e) => {
-    const { value } = e.target
-    setInputValue(value)
-  }
-
+  const [inputValue, setInputValue] = useState<any>(0)
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)
+  
   return (
     <>
       <div className="container">

@@ -1,4 +1,4 @@
-import {React ,useState, useEffect, useMemo  } from 'react'
+import React, {useState, useEffect, useMemo} from 'react'
 import styled from 'styled-components'
 import { ReactComponent as DayThunderstorm } from '@/images/day-thunderstorm.svg'
 import { ReactComponent as DayClear } from '@/images/day-clear.svg'
@@ -15,7 +15,7 @@ import { ReactComponent as NightFog } from '@/images/night-fog.svg'
 import { ReactComponent as NightPartiallyClearWithRain } from '@/images/night-partially-clear-with-rain.svg'
 import { ReactComponent as NightSnowing } from '@/images/night-snowing.svg'
 
-const weatherTypes = {
+const weatherTypes:object = {
   isThunderstorm: [15, 16, 17, 18, 21, 22, 33, 34, 35, 36, 41],
   isClear: [1],
   isCloudyFog: [25, 26, 27, 28],
@@ -29,7 +29,7 @@ const weatherTypes = {
   isSnowing: [23, 37, 42],
 }
 
-const weatherIcons = {
+const weatherIcons:object = {
   day: {
     isThunderstorm: <DayThunderstorm />,
     isClear: <DayClear />,
@@ -57,15 +57,20 @@ const IconContainer = styled.div`
   }
 `
 
-const weatherCode2Type = weatherCode => Object.entries(weatherTypes).reduce(
+type Props = {
+  currentWeatherCode: number,
+  moment: string,
+}
+
+const weatherCode2Type = (weatherCode:number) => Object.entries(weatherTypes).reduce(
   (currentWeatherType, [weatherType, weatherCodes]) =>weatherCodes.includes(Number(weatherCode)) ? weatherType : currentWeatherType,'',)
 
-const WeatherIcon = ({ currentWeatherCode, moment}) => {
-  const [currentWeatherIcon, setCurrentWeatherIcon] = useState('isClear')
+const WeatherIcon = ({ currentWeatherCode, moment} : Props) => {
+  const [currentWeatherIcon, setCurrentWeatherIcon] = useState<string>('isClear')
   const theWeatherIcon = useMemo(() => weatherCode2Type(currentWeatherCode), [currentWeatherCode,])
   useEffect(() => {setCurrentWeatherIcon(theWeatherIcon)}, [theWeatherIcon])
   
-  return (<IconContainer>{weatherIcons[moment][currentWeatherIcon]}</IconContainer>)
+  return (<IconContainer>{weatherIcons[moment as keyof typeof weatherIcons][currentWeatherIcon]}</IconContainer>)
 }
 
 export default WeatherIcon

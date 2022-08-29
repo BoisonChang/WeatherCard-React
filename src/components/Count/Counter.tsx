@@ -1,13 +1,13 @@
-import { React, useState } from 'react'
+import React,  { useState } from 'react'
 import './Counter.css';
 
+type Props = {
+  startingValue: number,
+}
 
-export default function Counter(props) {
-    const { startingValue } = props
-    const [count, setCount] = useState(startingValue)
-    const handleClick = (type) => () => {
-        setCount(type === 'increase' ? count + 1 : count - 1);
-    }
+export default function Counter({startingValue}:  Props) {
+    const [count, setCount] = useState<number>(startingValue)
+    const handleClick = (type: string) => () => setCount(type === 'increase' ? count + 1 : count - 1)
     const shadow = {
         boxShadow: '0 0 10px 10px #eaeaea',
         padding: 20
@@ -16,10 +16,10 @@ export default function Counter(props) {
   return (
     <div className="container" style={shadow}>
       <div className="chevron chevron-up" 
-      style={{
-        visibility: count >= 10 && 'hidden'
-      }}
-      onClick={ handleClick('increase')} />
+        style={{
+          visibility: count >= 10 && 'hidden'
+        } as React.CSSProperties }
+        onClick={ handleClick('increase')} />
       <div
         className="number"
         style={{
@@ -32,7 +32,7 @@ export default function Counter(props) {
       <div className="chevron chevron-down" 
         style={{
             visibility: count <= 0 && 'hidden'
-        }}
+        } as React.CSSProperties }
         onClick={ handleClick('decrease')} />
     </div>
   )

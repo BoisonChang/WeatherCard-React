@@ -7,6 +7,7 @@ import { ReactComponent as LoadingIcon } from '@/images/loading.svg'
 import { ReactComponent as CogIcon } from '@/images/cog.svg'
 import WeatherIcon from '@/components/Weather/WeatherIcon'
 import WeatherThemeSwitch from '@/components/Weather/WeatherThemeSwitch'
+import {WeatherElementType, WeatherCardElement} from '@/type/type'
 
 const WeatherCardWrapper = styled.div`
   position: relative;
@@ -76,7 +77,7 @@ const Rain = styled.div`
   }
 `
 
-const Refresh = styled.div`
+const Refresh = styled.div<{ isLoading: boolean }>`
   position: absolute;
   right: 15px;
   bottom: 15px;
@@ -84,6 +85,7 @@ const Refresh = styled.div`
   display: inline-flex;
   align-items: flex-end;
   color: ${({ theme }) => theme.textColor};
+  isLoading:string;
 
   svg {
     margin-left: 10px;
@@ -91,7 +93,7 @@ const Refresh = styled.div`
     height: 15px;
     cursor: pointer;
     animation: rotate infinite 1.5s linear;
-    animation-duration: ${({ isLoading }) => (isLoading ? '1.5s' : '0s')}
+    animation-duration: ${({ isLoading}) => isLoading ? '1.5s' : '0s'}
   }
 
   @keyframes rotate {
@@ -113,8 +115,7 @@ const Cog = styled(CogIcon)`
   cursor: pointer;
 `
 
-const WeatherCard = props => {
-    const { weatherElement, moment, fetchData, setCurrentPage, cityName, setCurrentTheme} = props
+const WeatherCard = ({weatherElement, moment, fetchData, setCurrentPage, cityName, setCurrentTheme} : WeatherCardElement) => {
     // 從 weatherElement 解構賦值方式取出以下變數，簡化後續程式碼
     const {
       observationTime,
@@ -124,33 +125,36 @@ const WeatherCard = props => {
       weatherCode,
       rainPossibility,
       comfortability,
-      isLoading,
-    } = weatherElement
+      isLoading
+    } =  weatherElement
 
     return (
     <WeatherCardWrapper>
       <WeatherThemeSwitch setCurrentTheme={setCurrentTheme} moment={moment}/>
       <Cog onClick={() => setCurrentPage('WeatherSetting')} />
-    <Location>{cityName ? cityName : '臺北市'}</Location>
-    <Description> {description ? description : '目前無資料'} /  {comfortability ? comfortability : '目前無資料'} </Description>
-    <CurrentWeather>
-        <Temperature> {temperature ? Math.round(temperature) : 'N/A'}<Celsius>°C</Celsius></Temperature>
-        <WeatherIcon 
-          currentWeatherCode={weatherCode ? weatherCode : 1}
-          moment={moment || 'day'}
-        />
-    </CurrentWeather>
-    <AirFlow><AirFlowIcon /> {windSpeed ? windSpeed :  'N/A' } m/h </AirFlow>
-    <Rain><RainIcon />{rainPossibility * 100 >= 0 ? rainPossibility :  'N/A' } %</Rain>
-    <Refresh onClick={fetchData} isLoading={isLoading}>
-        最後觀測時間：
-        {observationTime ? new Intl.DateTimeFormat('zh-TW', {
-          hour: 'numeric',
-          minute: 'numeric',
-        }).format(new Date(observationTime)) : '00:00' }
-        {' '}
-        {isLoading ? <LoadingIcon /> : <RefreshIcon />}
-    </Refresh>
+      <Location>{cityName ? cityName : '臺北市'}</Location>
+      <Description> {description ? description : '目前無資料'} /  {comfortability ? comfortability : '目前無資料'} </Description>
+      <CurrentWeather>
+          <Temperature> {temperature ? Math.round(temperature) : 'N/A'}<Celsius>°C</Celsius></Temperature>
+          <WeatherIcon 
+            currentWeatherCode={weatherCode ? weatherCode : 1}
+            moment={moment || 'day'}
+          />
+      </CurrentWeather>
+      <AirFlow><AirFlowIcon /> {windSpeed ? windSpeed :  'N/A' } m/h </AirFlow>
+      <Rain><RainIcon />{rainPossibility * 100 >= 0 ? rainPossibility :  'N/A' } %</Rain>  
+      <Refresh 
+        isLoading={isLoading}
+        onClick={(event: any) => fetchData} 
+        >
+          最後觀測時間：
+          {observationTime ? new Intl.DateTimeFormat('zh-TW', {
+            hour: 'numeric',
+            minute: 'numeric',
+          }).format(new Date(observationTime)) : '00:00' }
+          {' '}
+          {isLoading ? <LoadingIcon /> : <RefreshIcon />}
+      </Refresh>
     </WeatherCardWrapper>
     )
 }

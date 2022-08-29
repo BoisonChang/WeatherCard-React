@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { availableLocations } from '@/utils/utils.js'
+import { availableLocations } from '@/utils/utils'
 
 const WeatherSettingWrapper = styled.div`
   position: relative;
@@ -88,11 +88,17 @@ const Save = styled.button`
   }
 `
 
-const locations = availableLocations.map((location) => location.cityName)
-const WeatherSetting = ({ setCurrentPage, cityName, setCurrentCity }) => {
-    const [locationName, setLocationName] = useState(cityName)
+type Props = {
+  cityName: string,
+  setCurrentPage: Function,
+  setCurrentCity: Function,
+}
 
-    const handleChange = e => {
+const locations = availableLocations.map((location) => location.cityName)
+const WeatherSetting = ({ setCurrentPage, cityName, setCurrentCity }:  Props) => {
+    const [locationName, setLocationName] = useState<string>(cityName)
+
+    const handleChange = (e: any) => {
         console.log(e.target.value)
         setLocationName(e.target.value)
     }
