@@ -5,7 +5,8 @@ import WeatherSetting from '@/components/Weather/WeatherSetting'
 import useWeatherApi from '@/composable/useWeatherApi'
 import useMoment from '@/composable/useMoment'
 import { findLocation } from '@/utils/utils'
-import {WeatherElementType } from '@/type/type'
+import { WeatherElementType } from '@/type/type'
+import { useSelector } from 'react-redux'
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.backgroundColor};
@@ -33,13 +34,17 @@ const theme = {
   },
 }
 
+interface RootState {
+  currentCity: string
+}
+
 const WeatherApp = () => {
-  const storageCity = localStorage.getItem('cityName')
   const storageTheme = localStorage.getItem('modeType')
   // 從 useMoment 取得輸入所在城市，即可判斷現在時間白天還是黑夜的函式 
   const {getMoment} = useMoment()
   // 若是 storageCity 沒儲存東西就預設臺北市
-  const [currentCity, setCurrentCity] = useState<string>(storageCity || '臺北市')
+  const currentCity = useSelector((state:RootState) => state.currentCity)
+  // const [currentCity, setCurrentCity] = useState<string>(storageCity || '臺北市')
   // 從 currentCity 去找出對應的其他名稱
   const currentLocation = findLocation(currentCity) || {cityName: '臺北市',locationName: '天母',sunriseCityName: '臺北市'}
   const [currentTheme, setCurrentTheme] = useState<string>('light')
@@ -48,9 +53,6 @@ const WeatherApp = () => {
   const moment = useMemo(() => getMoment(currentLocation.sunriseCityName) || 'day', [currentLocation, getMoment])
   // 輸入白天黑夜決定現在的主題
   useEffect(() => {setCurrentTheme(moment === 'night' || storageTheme === 'night' ? 'dark' : 'light')}, [])
-  // 儲存選擇的現在所在的城市
-  useEffect(() => { localStorage.setItem('cityName', currentCity)}, [currentCity])
-  
 
   return (
     <ThemeProvider theme={theme[currentTheme as keyof typeof theme]}>
@@ -68,7 +70,6 @@ const WeatherApp = () => {
         {currentPage === 'WeatherSetting' && (
           <WeatherSetting 
             cityName={currentLocation.cityName} 
-            setCurrentCity={setCurrentCity}
             setCurrentPage={setCurrentPage} 
           />)}
       </Container>

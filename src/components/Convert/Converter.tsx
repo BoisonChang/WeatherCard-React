@@ -1,5 +1,6 @@
-import React, {  useState } from "react";
-import "./Converter.css";
+import React from "react"
+import "./Converter.css"
+import { useMappedState, useDispatch } from "redux-react-hook"
 
 const UnitControl = () => (
   <div className="unit-control">
@@ -13,7 +14,7 @@ const UnitControl = () => (
 )
 
 type Props = {
-  inputValue: number,
+  inputValue: any,
 }
 
 const CardFooter = ({inputValue}:  Props) => {
@@ -57,8 +58,9 @@ const CardFooter = ({inputValue}:  Props) => {
 };
 
 export default function SpeedConverter() {
-  const [inputValue, setInputValue] = useState<any>(0)
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)
+  const inputValue = useMappedState(state => state.inputValue)
+  const newInputValue = useMappedState(state => state.newInputValue)
+  const dispatch = useDispatch()
   
   return (
     <>
@@ -73,7 +75,9 @@ export default function SpeedConverter() {
                 type="number"
                 className="input-number"
                 min="0"
-                onChange={handleInputChange}
+                onChange = {(e: React.ChangeEvent<HTMLInputElement>) => {
+                  dispatch({type: 'CONVERT_TEMP', payload: {inputValue: e.target.value}})
+                }} 
                 value={inputValue}
               />
             </div>
@@ -86,12 +90,12 @@ export default function SpeedConverter() {
                 type="text"
                 className="input-number text-right"
                 disabled
-                value={inputValue / 8}
+                value={newInputValue}
               />
             </div>
           </div>
         </div>
-        <CardFooter  inputValue={inputValue}/>
+        <CardFooter inputValue={inputValue}/>
       </div>
     </>
   );

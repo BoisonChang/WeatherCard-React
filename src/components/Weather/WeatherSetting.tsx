@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { availableLocations } from '@/utils/utils'
+import { useDispatch } from 'react-redux'
+import { editCity } from '@/action/weather';
 
 const WeatherSettingWrapper = styled.div`
   position: relative;
@@ -91,13 +93,13 @@ const Save = styled.button`
 type Props = {
   cityName: string,
   setCurrentPage: Function,
-  setCurrentCity: Function,
 }
 
 const locations = availableLocations.map((location) => location.cityName)
-const WeatherSetting = ({ setCurrentPage, cityName, setCurrentCity }:  Props) => {
-    const [locationName, setLocationName] = useState<string>(cityName)
 
+const WeatherSetting = ({ setCurrentPage, cityName }:  Props) => {
+    const dispatch = useDispatch()
+    const [locationName, setLocationName] = useState<string>(cityName)
     const handleChange = (e: any) => {
         console.log(e.target.value)
         setLocationName(e.target.value)
@@ -106,7 +108,7 @@ const WeatherSetting = ({ setCurrentPage, cityName, setCurrentCity }:  Props) =>
     const handleSave = () => {
         if (locations.includes(locationName)) {
           console.log(`儲存的地區資訊為：${locationName}`)
-          setCurrentCity(locationName)
+          dispatch(editCity(locationName))
           setCurrentPage('WeatherCard')
         } else {
           alert(`儲存失敗：您輸入的 ${locationName} 並非有效的地區`)

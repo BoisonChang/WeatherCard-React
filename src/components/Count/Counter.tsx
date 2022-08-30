@@ -1,5 +1,5 @@
 import React,  { useState } from 'react'
-import './Counter.css';
+import './Counter.css'
 
 type Props = {
   startingValue: number,

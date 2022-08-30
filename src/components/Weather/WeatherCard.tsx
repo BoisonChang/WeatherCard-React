@@ -7,7 +7,7 @@ import { ReactComponent as LoadingIcon } from '@/images/loading.svg'
 import { ReactComponent as CogIcon } from '@/images/cog.svg'
 import WeatherIcon from '@/components/Weather/WeatherIcon'
 import WeatherThemeSwitch from '@/components/Weather/WeatherThemeSwitch'
-import {WeatherElementType, WeatherCardElement} from '@/type/type'
+import { WeatherCardElement} from '@/type/type'
 
 const WeatherCardWrapper = styled.div`
   position: relative;
@@ -135,11 +135,11 @@ const WeatherCard = ({weatherElement, moment, fetchData, setCurrentPage, cityNam
       <Location>{cityName ? cityName : '臺北市'}</Location>
       <Description> {description ? description : '目前無資料'} /  {comfortability ? comfortability : '目前無資料'} </Description>
       <CurrentWeather>
-          <Temperature> {temperature ? Math.round(temperature) : 'N/A'}<Celsius>°C</Celsius></Temperature>
-          <WeatherIcon 
-            currentWeatherCode={weatherCode ? weatherCode : 1}
-            moment={moment || 'day'}
-          />
+        <Temperature> {temperature ? Math.round(temperature) : 'N/A'}<Celsius>°C</Celsius></Temperature>
+        <WeatherIcon 
+          currentWeatherCode={weatherCode ? weatherCode : 1}
+          moment={moment || 'day'}
+        />
       </CurrentWeather>
       <AirFlow><AirFlowIcon /> {windSpeed ? windSpeed :  'N/A' } m/h </AirFlow>
       <Rain><RainIcon />{rainPossibility * 100 >= 0 ? rainPossibility :  'N/A' } %</Rain>  
