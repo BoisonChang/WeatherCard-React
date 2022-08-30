@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { availableLocations } from '@/utils/utils'
 import { useDispatch } from 'react-redux'
-import { editCity } from '@/action/weather';
+import { editCity, editPage } from '@/action/weather'
 
 const WeatherSettingWrapper = styled.div`
   position: relative;
@@ -92,44 +92,44 @@ const Save = styled.button`
 
 type Props = {
   cityName: string,
-  setCurrentPage: Function,
 }
 
 const locations = availableLocations.map((location) => location.cityName)
 
-const WeatherSetting = ({ setCurrentPage, cityName }:  Props) => {
-    const dispatch = useDispatch()
-    const [locationName, setLocationName] = useState<string>(cityName)
-    const handleChange = (e: any) => {
-        console.log(e.target.value)
-        setLocationName(e.target.value)
+const WeatherSetting = ({ cityName }:  Props) => {
+  const dispatch = useDispatch()
+  const [locationName, setLocationName] = useState<string>(cityName)
+  const handleChange = (e: any) => {
+    console.log(e.target.value)
+    setLocationName(e.target.value)
+  }
+
+  const handleSave = () => {
+    if (locations.includes(locationName)) {
+      console.log(`儲存的地區資訊為：${locationName}`)
+      dispatch(editCity(locationName))
+      dispatch(editPage('WeatherCard'))
+      localStorage.setItem('city', locationName)
+    } else {
+      alert(`儲存失敗：您輸入的 ${locationName} 並非有效的地區`)
+      return
     }
+  }
 
-    const handleSave = () => {
-        if (locations.includes(locationName)) {
-          console.log(`儲存的地區資訊為：${locationName}`)
-          dispatch(editCity(locationName))
-          setCurrentPage('WeatherCard')
-        } else {
-          alert(`儲存失敗：您輸入的 ${locationName} 並非有效的地區`)
-          return
-        }
-      }
-
-    return (
-        <WeatherSettingWrapper>
-          <Title>設定</Title>
-          <StyledLabel htmlFor="location">地區</StyledLabel>
-          <StyledInputList list="location-list" id="location" name="location" onChange={handleChange} />
-            <datalist id="location-list">
-                { locations.map(location => (<option value={location} key={location} />)) }
-            </datalist>
-          <ButtonGroup>
-            <Back onClick={() => setCurrentPage('WeatherCard')}>返回</Back>
-            <Save onClick={handleSave}>儲存</Save>
-          </ButtonGroup>
-        </WeatherSettingWrapper>
-      )
+  return (
+    <WeatherSettingWrapper>
+      <Title>設定</Title>
+      <StyledLabel htmlFor="location">地區</StyledLabel>
+      <StyledInputList list="location-list" id="location" name="location" onChange={handleChange} />
+        <datalist id="location-list">
+          { locations.map(location => (<option value={location} key={location} />)) }
+        </datalist>
+      <ButtonGroup>
+        <Back onClick={() => dispatch(editPage('WeatherCard'))}>返回</Back>
+        <Save onClick={handleSave}>儲存</Save>
+      </ButtonGroup>
+    </WeatherSettingWrapper>
+  )
 }
 
 export default WeatherSetting

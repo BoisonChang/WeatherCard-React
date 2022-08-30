@@ -15,8 +15,6 @@ export type WeatherCardElement = {
     cityName: string,
     weatherElement:WeatherElementType,
     fetchData: Function,
-    setCurrentPage: Function,
-    setCurrentTheme: Function
 }
 
 export type WeatherType = {

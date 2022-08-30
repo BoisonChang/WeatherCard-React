@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import '@/components/Weather/WeatherThemeSwitch.css'
-
-type Props = {
-    moment: string,
-    setCurrentTheme: Function,
+import { switchTheme } from '@/action/weather'
+import { useSelector, useDispatch } from 'react-redux'
+interface RootState {
+    currentTheme: string
 }
 
-const WeatherThemeSwitch = ({setCurrentTheme, moment}: Props) => {
-    const storageMode = localStorage.getItem('modeType')
-    const [mode, setMode] = useState<string>(storageMode || moment)  
-    const handleTheme = (e:any) => {
-        setCurrentTheme(mode === 'day' ? 'dark' : 'light')
-        setMode(mode === 'day' ? 'night' : 'day')
-        localStorage.setItem('modeType', mode === 'day' ? 'night' : 'day')
+const WeatherThemeSwitch = () => {
+    const dispatch = useDispatch()
+    const currentTheme = useSelector((state:RootState) => state.currentTheme)
+    const handleTheme = () => {
+        dispatch(switchTheme(currentTheme === 'light' ? 'dark' : 'light'))
+        localStorage.setItem('theme', currentTheme)
     }
     useEffect(() => {
         let domToggleCheckbox = (document.getElementById('toggle-checkbox') as HTMLInputElement)
-        domToggleCheckbox.checked = mode === 'night' ? true : false
-    }, [])
+        domToggleCheckbox.checked = currentTheme === 'dark' ? true : false
+    }, [currentTheme])
 
     return (
         <label className="container" >
@@ -27,6 +26,6 @@ const WeatherThemeSwitch = ({setCurrentTheme, moment}: Props) => {
             </div>
         </label>
     )
-  }
+}
   
   export default WeatherThemeSwitch
