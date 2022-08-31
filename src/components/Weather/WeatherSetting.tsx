@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { availableLocations } from '@/utils/utils'
-import { useDispatch } from 'react-redux'
-import { editCity, editPage } from '@/action/weather'
+import { useSelector, useDispatch } from 'react-redux'
+import { editPage, editLocation } from '@/action/weather'
 
 const WeatherSettingWrapper = styled.div`
   position: relative;
@@ -89,29 +89,35 @@ const Save = styled.button`
     background-color: #40a9f3;
   }
 `
-
-type Props = {
-  cityName: string,
+interface RootState {
+  currentLocation: {
+    cityName: string,
+    locationName: string,
+    sunriseCityName: string
+  }
 }
 
 const locations = availableLocations.map((location) => location.cityName)
+const newLocation = (cityName:string) => availableLocations.filter((location) => location.cityName === cityName)[0]
 
-const WeatherSetting = ({ cityName }:  Props) => {
+const WeatherSetting = () => {
   const dispatch = useDispatch()
-  const [locationName, setLocationName] = useState<string>(cityName)
+  const currentLocation = useSelector((state:RootState) => state.currentLocation)
+  let newCityName = currentLocation.cityName
+  // const [locationName, setLocationName] = useState<string>(cityName)
   const handleChange = (e: any) => {
     console.log(e.target.value)
-    setLocationName(e.target.value)
+    newCityName = e.target.value
   }
 
   const handleSave = () => {
-    if (locations.includes(locationName)) {
-      console.log(`儲存的地區資訊為：${locationName}`)
-      dispatch(editCity(locationName))
+    if (locations.includes(currentLocation.cityName)) {
+      console.log(`儲存的地區資訊為：${currentLocation.cityName}`)
       dispatch(editPage('WeatherCard'))
-      localStorage.setItem('city', locationName)
+      dispatch(editLocation({...newLocation(newCityName)}))
+      localStorage.setItem('city', newCityName)
     } else {
-      alert(`儲存失敗：您輸入的 ${locationName} 並非有效的地區`)
+      alert(`儲存失敗：您輸入的 ${currentLocation.cityName} 並非有效的地區`)
       return
     }
   }
@@ -122,7 +128,7 @@ const WeatherSetting = ({ cityName }:  Props) => {
       <StyledLabel htmlFor="location">地區</StyledLabel>
       <StyledInputList list="location-list" id="location" name="location" onChange={handleChange} />
         <datalist id="location-list">
-          { locations.map(location => (<option value={location} key={location} />)) }
+          { locations.map(cityName => (<option value={cityName} key={cityName} />)) }
         </datalist>
       <ButtonGroup>
         <Back onClick={() => dispatch(editPage('WeatherCard'))}>返回</Back>

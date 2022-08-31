@@ -7,9 +7,9 @@ import { ReactComponent as LoadingIcon } from '@/images/loading.svg'
 import { ReactComponent as CogIcon } from '@/images/cog.svg'
 import WeatherIcon from '@/components/Weather/WeatherIcon'
 import WeatherThemeSwitch from '@/components/Weather/WeatherThemeSwitch'
-import { WeatherCardElement} from '@/type/type'
+import { WeatherCardElement } from '@/type/type'
 import { editPage } from '@/action/weather'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const WeatherCardWrapper = styled.div`
   position: relative;
@@ -116,9 +116,18 @@ const Cog = styled(CogIcon)`
   height: 15px;
   cursor: pointer;
 `
+interface RootState {
+  currentLocation: {
+    cityName: string,
+    locationName: string,
+    sunriseCityName: string
+  }
+}
 
-const WeatherCard = ({weatherElement, moment, fetchData, cityName} : WeatherCardElement) => {
+
+const WeatherCard = ({weatherElement, moment, fetchData} : WeatherCardElement) => {
     const dispatch = useDispatch()
+    const currentLocationCity = useSelector((state:RootState) => state.currentLocation).cityName
     // 從 weatherElement 解構賦值方式取出以下變數，簡化後續程式碼
     const {
       observationTime,
@@ -129,13 +138,13 @@ const WeatherCard = ({weatherElement, moment, fetchData, cityName} : WeatherCard
       rainPossibility,
       comfortability,
       isLoading
-    } =  weatherElement
+    } = weatherElement
 
     return (
     <WeatherCardWrapper>
       <WeatherThemeSwitch />
       <Cog onClick={() => dispatch(editPage('WeatherSetting')) }/>
-      <Location>{cityName ? cityName : '臺北市'}</Location>
+      <Location>{currentLocationCity ? currentLocationCity : '臺北市'}</Location>
       <Description> {description ? description : '目前無資料'} /  {comfortability ? comfortability : '目前無資料'} </Description>
       <CurrentWeather>
         <Temperature> {temperature ? Math.round(temperature) : 'N/A'}<Celsius>°C</Celsius></Temperature>

@@ -1,10 +1,9 @@
-import React, {useState , useEffect, useMemo} from 'react'
+import React, {useEffect, useMemo} from 'react'
 import styled, {ThemeProvider} from 'styled-components'
 import WeatherCard from '@/components/Weather/WeatherCard'
 import WeatherSetting from '@/components/Weather/WeatherSetting'
 import useWeatherApi from '@/composable/useWeatherApi'
 import useMoment from '@/composable/useMoment'
-import { findLocation } from '@/utils/utils'
 import { WeatherElementType } from '@/type/type'
 import { useSelector, useDispatch } from 'react-redux'
 import { switchTheme } from '@/action/weather'
@@ -36,19 +35,22 @@ const theme = {
 }
 
 interface RootState {
-  currentCity: string,
   currentPage: string,
   currentTheme: string
+  currentLocation: {
+    cityName: string,
+    locationName: string,
+    sunriseCityName: string
+  }
 }
 
 const WeatherApp = () => {
   const dispatch = useDispatch()
   // 從 useMoment 取得輸入所在城市，即可判斷現在時間白天還是黑夜的函式 
   const {getMoment} = useMoment()
-  const currentCity = useSelector((state:RootState) => state.currentCity)
   const currentPage = useSelector((state:RootState) => state.currentPage)
   const currentTheme = useSelector((state:RootState) => state.currentTheme)
-  const currentLocation = findLocation(currentCity) || {cityName: '臺北市',locationName: '天母',sunriseCityName: '臺北市'}
+  const currentLocation = useSelector((state:RootState) => state.currentLocation)
   const [weatherElement, fetchData] = useWeatherApi(currentLocation)
   const moment = useMemo(() => getMoment(currentLocation.sunriseCityName) || 'day', [currentLocation, getMoment])
   // 輸入白天黑夜決定現在的主題
@@ -59,7 +61,6 @@ const WeatherApp = () => {
       <Container>
         {currentPage === 'WeatherCard' && (
           <WeatherCard 
-            cityName={currentLocation?.cityName}
             weatherElement={weatherElement as WeatherElementType} 
             moment={moment}
             fetchData={fetchData as Function}
@@ -67,7 +68,6 @@ const WeatherApp = () => {
         )}
         {currentPage === 'WeatherSetting' && (
           <WeatherSetting 
-            cityName={currentLocation.cityName} 
         />)}
       </Container>
     </ ThemeProvider>

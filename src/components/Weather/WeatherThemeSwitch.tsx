@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import '@/components/Weather/WeatherThemeSwitch.css'
 import { switchTheme } from '@/action/weather'
 import { useSelector, useDispatch } from 'react-redux'
@@ -11,7 +11,6 @@ const WeatherThemeSwitch = () => {
     const currentTheme = useSelector((state:RootState) => state.currentTheme)
     const handleTheme = () => {
         dispatch(switchTheme(currentTheme === 'light' ? 'dark' : 'light'))
-        localStorage.setItem('theme', currentTheme)
     }
     useEffect(() => {
         let domToggleCheckbox = (document.getElementById('toggle-checkbox') as HTMLInputElement)

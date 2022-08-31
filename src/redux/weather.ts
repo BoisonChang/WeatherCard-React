@@ -1,22 +1,23 @@
 import * as actions from '@/action/weather'
+import { findLocation } from '@/utils/utils'
 
 const initState = {
-    currentCity: localStorage.getItem('city') || '臺北市',
     currentPage: 'WeatherCard',
-    currentTheme: localStorage.getItem('theme') || 'light'
+    currentTheme: 'light',
+    currentLocation: findLocation(localStorage.getItem('city') || '臺北市')
 }
 
 const weatherReducer = (state:any = initState, action:any) => {
     switch (action.type) {
-        case actions.EDIT_CITY:
-            return {
-                ...state,
-                currentCity: action.payload.city,
-            }
         case actions.EDIT_PAGE:
             return {
                 ...state,
                 currentPage: action.payload.page,
+            }
+        case actions.EDIT_LOCATION:
+            return {
+                ...state,
+                currentLocation: action.payload.location,
             }
         case actions.SWITCH_THEME:
             return {

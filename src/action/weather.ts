@@ -1,18 +1,18 @@
-export const EDIT_CITY = 'EDIT_CITY'
 export const EDIT_PAGE = 'EDIT_PAGE'
 export const SWITCH_THEME = 'SWITCH_THEME'
-
-export const editCity = (city:string) => ({
-  type: EDIT_CITY,
-  payload: {
-    city,
-  },
-})
+export const EDIT_LOCATION  = 'EDIT_LOCATION'
 
 export const editPage = (page:string) => ({
   type: EDIT_PAGE,
   payload: {
     page,
+  },
+})
+
+export const editLocation = (location:Object) => ({
+  type: EDIT_LOCATION,
+  payload: {
+    location,
   },
 })
 
