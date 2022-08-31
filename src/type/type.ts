@@ -12,11 +12,8 @@ export type WeatherElementType = {
 
 export type WeatherCardElement = {
     moment: string,
-    cityName: string,
     weatherElement:WeatherElementType,
     fetchData: Function,
-    setCurrentPage: Function,
-    setCurrentTheme: Function
 }
 
 export type WeatherType = {

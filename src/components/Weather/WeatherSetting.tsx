@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { availableLocations } from '@/utils/utils'
+import { useSelector, useDispatch } from 'react-redux'
+import { editPage, editLocation } from '@/action/weather'
 
 const WeatherSettingWrapper = styled.div`
   position: relative;
@@ -87,47 +89,53 @@ const Save = styled.button`
     background-color: #40a9f3;
   }
 `
-
-type Props = {
-  cityName: string,
-  setCurrentPage: Function,
-  setCurrentCity: Function,
+interface RootState {
+  currentLocation: {
+    cityName: string,
+    locationName: string,
+    sunriseCityName: string
+  }
 }
 
 const locations = availableLocations.map((location) => location.cityName)
-const WeatherSetting = ({ setCurrentPage, cityName, setCurrentCity }:  Props) => {
-    const [locationName, setLocationName] = useState<string>(cityName)
+const newLocation = (cityName:string) => availableLocations.filter((location) => location.cityName === cityName)[0]
 
-    const handleChange = (e: any) => {
-        console.log(e.target.value)
-        setLocationName(e.target.value)
+const WeatherSetting = () => {
+  const dispatch = useDispatch()
+  const currentLocation = useSelector((state:RootState) => state.currentLocation)
+  let newCityName = currentLocation.cityName
+  // const [locationName, setLocationName] = useState<string>(cityName)
+  const handleChange = (e: any) => {
+    console.log(e.target.value)
+    newCityName = e.target.value
+  }
+
+  const handleSave = () => {
+    if (locations.includes(currentLocation.cityName)) {
+      console.log(`儲存的地區資訊為：${currentLocation.cityName}`)
+      dispatch(editPage('WeatherCard'))
+      dispatch(editLocation({...newLocation(newCityName)}))
+      localStorage.setItem('city', newCityName)
+    } else {
+      alert(`儲存失敗：您輸入的 ${currentLocation.cityName} 並非有效的地區`)
+      return
     }
+  }
 
-    const handleSave = () => {
-        if (locations.includes(locationName)) {
-          console.log(`儲存的地區資訊為：${locationName}`)
-          setCurrentCity(locationName)
-          setCurrentPage('WeatherCard')
-        } else {
-          alert(`儲存失敗：您輸入的 ${locationName} 並非有效的地區`)
-          return
-        }
-      }
-
-    return (
-        <WeatherSettingWrapper>
-          <Title>設定</Title>
-          <StyledLabel htmlFor="location">地區</StyledLabel>
-          <StyledInputList list="location-list" id="location" name="location" onChange={handleChange} />
-            <datalist id="location-list">
-                { locations.map(location => (<option value={location} key={location} />)) }
-            </datalist>
-          <ButtonGroup>
-            <Back onClick={() => setCurrentPage('WeatherCard')}>返回</Back>
-            <Save onClick={handleSave}>儲存</Save>
-          </ButtonGroup>
-        </WeatherSettingWrapper>
-      )
+  return (
+    <WeatherSettingWrapper>
+      <Title>設定</Title>
+      <StyledLabel htmlFor="location">地區</StyledLabel>
+      <StyledInputList list="location-list" id="location" name="location" onChange={handleChange} />
+        <datalist id="location-list">
+          { locations.map(cityName => (<option value={cityName} key={cityName} />)) }
+        </datalist>
+      <ButtonGroup>
+        <Back onClick={() => dispatch(editPage('WeatherCard'))}>返回</Back>
+        <Save onClick={handleSave}>儲存</Save>
+      </ButtonGroup>
+    </WeatherSettingWrapper>
+  )
 }
 
 export default WeatherSetting

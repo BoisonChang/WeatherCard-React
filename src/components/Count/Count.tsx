@@ -15,7 +15,7 @@ export default function Count() {
       }}
     >
       {countersLen.map((item, index) => (
-         <Counter startingValue={index+ 0.6}/>
+         <Counter startingValue={index + 0.6}/>
       ))}  
     </div> 
   );
